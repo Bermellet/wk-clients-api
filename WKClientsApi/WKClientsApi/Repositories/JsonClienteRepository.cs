@@ -24,7 +24,7 @@ namespace WKClientsApi.Repositories
         public async Task<IEnumerable<Cliente>> GetAllAsync() => await LoadData();
 
         public async Task<Cliente?> GetByDniAsync(string dni) =>
-            (await LoadData()).FirstOrDefault(c => c.Dni == dni);
+            (await LoadData()).FirstOrDefault(c => c.DNI == dni);
 
         public async Task AddAsync(Cliente cliente)
         {
@@ -36,7 +36,7 @@ namespace WKClientsApi.Repositories
         public async Task DeleteAsync(string dni)
         {
             var clientes = await LoadData();
-            clientes.RemoveAll(c => c.Dni == dni);
+            clientes.RemoveAll(c => c.DNI == dni);
             await SaveData(clientes);
         }
     }

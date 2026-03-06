@@ -17,13 +17,13 @@ namespace WKClientsApi.Endpoints
 
             group.MapPost("/", async (Cliente cliente, IClienteRepository repo) =>
             {
-                if (string.IsNullOrWhiteSpace(cliente.Dni)) return Results.BadRequest("DNI inválido"); // TODO: Validations DNI
+                if (string.IsNullOrWhiteSpace(cliente.DNI)) return Results.BadRequest("DNI inválido"); // TODO: Validations DNI
 
-                var existing = await repo.GetByDniAsync(cliente.Dni);
+                var existing = await repo.GetByDniAsync(cliente.DNI);
                 if (existing is not null) return Results.BadRequest("El DNI ya existe");
 
                 await repo.AddAsync(cliente);
-                return Results.Created($"/clientes/{cliente.Dni}", cliente);
+                return Results.Created($"/clientes/{cliente.DNI}", cliente);
             });
 
             group.MapDelete("/{dni}", async (string dni, IClienteRepository repo) =>
