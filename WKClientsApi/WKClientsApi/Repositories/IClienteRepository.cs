@@ -7,6 +7,7 @@ namespace WKClientsApi.Repositories
         Task<IEnumerable<Cliente>> GetAllAsync();
         Task<Cliente?> GetByDniAsync(string dni);
         Task AddAsync(Cliente client);
+        Task UpdateAsync(string dni, Cliente client);
         Task DeleteAsync(string dni);
     }
 }

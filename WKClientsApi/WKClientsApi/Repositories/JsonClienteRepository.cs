@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Text.Json;
+﻿using System.Text.Json;
 using WKClientsApi.Models;
 
 namespace WKClientsApi.Repositories
@@ -32,7 +31,25 @@ namespace WKClientsApi.Repositories
         public async Task AddAsync(Cliente cliente)
         {
             var clientes = await LoadData();
+            if (clientes.Any(c => c.DNI == cliente.DNI))
+            {
+                throw new InvalidOperationException("El DNI ya existe");
+            }
+
             clientes.Add(cliente);
+            await SaveData(clientes);
+        }
+
+        public async Task UpdateAsync(string dni, Cliente cliente)
+        {
+            var clientes = await LoadData();
+            var index = clientes.FindIndex(c => c.DNI == dni);
+            if (index == -1)
+            {
+                throw new KeyNotFoundException("Cliente no encontrado");
+            }
+
+            clientes[index] = cliente;
             await SaveData(clientes);
         }
 
