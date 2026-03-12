@@ -20,7 +20,20 @@ namespace WKClientsApi.Repositories
         {
             var json = JsonSerializer.Serialize(clientes, _options);
             var filePath = GetCompleteFilePath(_filePath);
+            CreateFolderIfNotExist(_filePath);
             await File.WriteAllTextAsync(filePath, json);
+        }
+
+        private void CreateFolderIfNotExist(string path)
+        {
+            var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            var dir = Path.GetDirectoryName(path);
+            var directory = Path.Combine(baseDir, dir);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
         }
 
         public async Task<IEnumerable<Cliente>> GetAllAsync() => await LoadData();
